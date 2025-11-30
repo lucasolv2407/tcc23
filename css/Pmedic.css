@@ -1,0 +1,306 @@
+/* ============================= */
+/* RESET E BASE */
+/* ============================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eef3fa;
+  color: #2d2d2d;
+  transition: 0.3s;
+}
+
+
+/* ============================= */
+/* MODO ESCURO */
+/* ============================= */
+
+body.dark {
+  background: #0f1115;
+  color: #e6e6e6;
+}
+
+body.dark .sidebar {
+  background: #16181d;
+  border-color: #222;
+}
+
+body.dark .consulta-card,
+body.dark #prontuarioSalvo .consulta-card {
+  background: #1c1f25;
+  color: #e6e6e6;
+  box-shadow: none;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #1c1f25;
+  color: #e6e6e6;
+  border: 1px solid #3a3f47;
+}
+
+body.dark .header {
+  background: linear-gradient(90deg, #23386b, #1b2b4f);
+}
+
+body.dark .sidebar a:hover,
+body.dark .sidebar a.active {
+  background: #242a33;
+  color: #77b9ff;
+}
+
+
+/* ============================= */
+/* BARRA DE CIMA */
+/* ============================= */
+
+.header {
+  background: linear-gradient(90deg, #3b6bd6, #264bb5);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 3px 10px rgba(0, 0, 40, 0.2);
+}
+
+.header h1 {
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.header .user-info {
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.header .user-info:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+
+.sidebar {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  width: 240px;
+  height: calc(100% - 65px);
+  background: #8fb8ff;
+  border-right: 1px solid #7ea6e6;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 40, 0.15);
+}
+
+.sidebar a {
+  display: block;
+  margin: 5px 12px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #2e323a;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+.sidebar a:hover {
+  background: #e8efff;
+  color: #2f59d9;
+}
+
+.sidebar a.active {
+  background: #dce7ff;
+  color: #2f59d9;
+  box-shadow: 0 0 0 2px #ffffffaa;
+}
+
+.sidebar .exit {
+  margin-top: 30px;
+  background: #ffe1dd;
+  color: #d9423d;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+
+/* ============================= */
+/* MAIN CONTENT */
+/* ============================= */
+
+.main {
+  margin-left: 260px;
+  padding: 100px 30px 30px;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+
+/* ============================= */
+/* CARDS DE CONSULTAS */
+/* ============================= */
+
+.consulta-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 10px rgba(0, 0, 20, 0.08);
+  transition: 0.25s;
+  border-left: 5px solid #3f63ff;
+}
+
+.consulta-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 18px rgba(0, 0, 20, 0.12);
+}
+
+.consulta-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.consulta-header h4 {
+  margin: 0;
+  color: #2f59d9;
+  font-size: 18px;
+}
+
+/* STATUS BADGES */
+
+.status {
+  padding: 5px 12px;
+  border-radius: 14px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.Agendada { background: #4b88e8; }
+.Concluída { background: #39c47b; }
+.Cancelada { background: #d84a4a; }
+
+.consulta-body p {
+  margin: 3px 0;
+  color: #444;
+}
+
+.consulta-body button {
+  margin-top: 6px;
+  margin-right: 6px;
+  padding: 7px 13px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2f59d9;
+  color: white;
+  transition: .2s;
+}
+
+.consulta-body button:hover {
+  background: #2345a8;
+}
+
+
+/* ============================= */
+/* FORM E EDIÇÃO */
+/* ============================= */
+
+.editar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editar-card input,
+.editar-card select,
+.editar-card textarea {
+  width: 100%;
+  border-radius: 8px;
+}
+
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 20, 0.45);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 22px;
+  width: 330px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 30, 0.15);
+}
+
+.modal-content h3 {
+  color: #2f59d9;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.modal-content label {
+  margin: 8px 0 4px;
+  font-weight: 600;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.modal-content button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #2f59d9;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+.modal-content button:hover {
+  background: #2447a3;
+}
+
+.close-btn {
+  background: #d9534f;
+  margin-top: 6px;
+}

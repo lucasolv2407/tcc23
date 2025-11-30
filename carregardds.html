@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Médico</title>
+    <style>
+        body { font-family: Arial; }
+        h2 { margin-top: 30px; }
+        table { border-collapse: collapse; width: 700px; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+    </style>
+</head>
+<body>
+
+    <h1>Painel do Médico</h1>
+
+    <h2>🟢 Novos Pacientes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Paciente</th>
+                <th>Sexo</th>
+                <th>Data Cadastro</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaPacientes"></tbody>
+    </table>
+
+    <h2>🟣 Consultas Agendadas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Consulta</th>
+                <th>Paciente</th>
+                <th>Data</th>
+                <th>Motivo</th>
+                <th>Médico</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaConsultas"></tbody>
+    </table>
+
+    <script src="painel_medico.js"></script>
+
+</body>
+</html>

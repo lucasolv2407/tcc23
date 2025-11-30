@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel Paciente - pingdsaude</title>
+  <link rel="stylesheet" href="css/Ppaci.css" />
+  <link rel="icon" type="image/png" href="Imagem/PaciPig.jpg">
+
+</head>
+<body>
+  <header>
+    <div class="brand">
+  <img src="Imagem/PaciPig.jpg" alt="Logo" class="logo-img">
+  pingdsaude
+</div>
+    <div class="user">
+      Bem-vinda, <strong id="nomeUser" style="cursor:pointer"></strong>
+    </div>
+  </header>
+  <main class="container">
+    <div class="hero">
+      <div>
+        <h1>Olá, <span id="nomeUserHero"></span>!</h1>
+        <p>Bem-vinda ao seu painel de saúde. Aqui você acompanha suas consultas e vacinas.</p>
+        <div class="prox-consulta" style="margin-top:8px;color:rgba(255,255,255,0.9)">
+          <strong>Próxima consulta:</strong> — (nenhuma marcada)
+        </div>
+      </div>
+      <div>
+        <button id="openModal" class="btn">Agendar Nova Consulta</button>
+      </div>
+    </div>
+
+    <div class="tabs" style="margin-top:22px">
+      <button class="active" data-tab="consultas">Minhas Consultas</button>
+      <button data-tab="vacinas">Minhas Vacinas</button>
+      <button data-tab="exames">Meus Exames</button>
+    </div>
+
+    <!-- Consultas -->
+    <section id="consultas" class="tab-content">
+      <h2 class="section-title">Próximas Consultas</h2>
+      <div id="listaConsultas" class="grid"></div>
+
+      <h2 class="section-title" style="margin-top:26px">Histórico de Consultas</h2>
+      <div id="historico" class="grid">
+        <div class="card empty">Ainda sem histórico. Quando você confirmar ou criar consultas, elas aparecem aqui.</div>
+      </div>
+    </section>
+
+    <!-- Vacinas -->
+    <section id="vacinas" class="tab-content" style="display:none">
+      <h2 class="section-title">Minhas Vacinas</h2>
+      <div class="card empty">Área de vacinas — nada por enquanto.</div>
+    </section>
+
+    <!-- Exames -->
+    <section id="exames" class="tab-content" style="display:none">
+      <h2 class="section-title">Meus Exames</h2>
+      <div class="card empty">Área de exames — nada por enquanto.</div>
+    </section>
+  </main>
+
+  <!-- Modal Agendar -->
+  <div id="modal" class="modal-back">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Agendar Consulta</strong>
+        <button class="close" id="closeModal">X</button>
+      </div>
+      <div style="margin-top:12px">
+        <label>Especialidade</label>
+        <input id="especialidade" placeholder="Ex: Cardiologia" />
+        <label>Médico(a)</label>
+        <input id="medico" placeholder="Ex: Dr. Carlos Mendes" />
+        <div class="form-row" style="margin-top:8px">
+          <div class="col">
+            <label>Data</label>
+            <input id="data" type="date" />
+          </div>
+          <div class="col">
+            <label>Hora (início)</label>
+            <input id="hora" type="time" />
+          </div>
+        </div>
+        <label>Local / Sala</label>
+        <input id="local" placeholder="Clínica MedMais - Sala 302" />
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="primary" id="saveConsulta">Salvar</button>
+          <button class="secondary" id="cancel">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/Ppaci.js"></script>
+</body>
+</html>

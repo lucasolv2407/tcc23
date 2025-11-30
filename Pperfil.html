@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Paciente pingdsaude</title>
+  <link rel="stylesheet" href="css/Pperfil.css">
+</head>
+<body>
+  <div class="painel">
+    <div class="cabecalho">
+      <div class="perfil">
+        <label for="fotoInput" class="avatar" id="avatar">
+          <img id="fotoPerfil" alt="Foto do perfil">
+        </label>
+        <input type="file" id="fotoInput" accept="image/*" style="display:none;">
+        <div>
+          <h2 id="nomePerfil">Paciente</h2>
+          <p class="id" id="pacienteId">Paciente ID: #00000</p>
+          <p class="ativo">✔ Perfil Ativo</p>
+        </div>
+      </div>
+      <div class="acoes">
+        <button id="darkBtn">🌙 Dark</button>
+        <button id="editarBtn">✏️ Editar Perfil</button>
+      </div>
+    </div>
+
+    <div class="conteudo">
+      <div class="box">
+        <h3>🔎 Informações Pessoais</h3>
+        <form id="formPessoal">
+          <label>Nome Completo <input type="text" id="nome"></label>
+          <label>Data de Nascimento <input type="date" id="nascimento"></label>
+          <label>Sexo 
+            <select id="sexo">
+              <option value="">Selecione</option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+              <option>Outro</option>
+            </select>
+          </label>
+          <label>CPF <input type="text" id="cpf"></label>
+          <label>Endereço <input type="text" id="endereco"></label>
+          <label>Telefone <input type="text" id="telefone"></label>
+          <label>Email <input type="email" id="email"></label>
+        </form>
+      </div>
+
+      <div class="box">
+        <h3>🏥 Saúde e Histórico Médico</h3>
+        <form id="formSaude">
+          <label>Altura <input type="text" id="altura"></label>
+          <label>Peso <input type="text" id="peso"></label>
+          <label>Tipo Sanguíneo <input type="text" id="sangue"></label>
+          <label>Alergias <textarea id="alergias"></textarea></label>
+          <label>Condições Crônicas <textarea id="condicoes"></textarea></label>
+          <label>Medicamentos em Uso <textarea id="medicamentos"></textarea></label>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/Pperfil.js"></script>
+</body>
+</html>

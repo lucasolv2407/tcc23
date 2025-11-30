@@ -1,0 +1,127 @@
+:root {
+    --bg: #0f1230;
+    --panel: #f3eef8;
+    --accent: #4632a1;
+    --green: #2fb34a;
+    --muted: #6b6b6b;
+    font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(180deg, #0b0f2a 0%, #12102b 60%);
+    color: #111;
+  }
+  
+  .container {
+    max-width: 540px;
+    margin: 36px auto;
+    padding: 28px;
+  }
+  
+  .card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 248, 255, 0.98));
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin: 0 0 8px 0;
+    color: #111;
+    text-align: center;
+  }
+  
+  .subtitle {
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #2b2b2b;
+  }
+  
+  input[type=number] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #dcd6e9;
+    background: #fff;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  .btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 16px;
+    border-radius: 8px;
+    background: var(--green);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn:active {
+    transform: translateY(1px);
+  }
+  
+  .result-box {
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .result-title {
+    font-weight: 800;
+    color: #344;
+    letter-spacing: 0.2px;
+  }
+  
+  .result-line {
+    margin: 8px 0;
+    padding-left: 14px;
+  }
+  
+  .bullet {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  
+  .note {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 420px) {
+    .container {
+      padding: 14px;
+    }
+  
+    .card {
+      padding: 18px;
+    }
+  
+    h1 {
+      font-size: 22px;
+    }
+  }
+  

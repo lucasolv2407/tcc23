@@ -1,0 +1,89 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Segoe UI", Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+
+  /* COR NEUTRA + IMAGEM TRANSPARENTE POR CIMA */
+  background:
+    linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),
+    url("../Imagem/Hospital.jpeg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* GARANTIR QUE A BOX FIQUE EM CIMA DO OVERLAY */
+.box{
+  position:relative;
+  z-index:1;
+
+  background:#fff;
+  padding:40px 30px;
+  border-radius:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.25);
+  width:400px;
+  text-align:center;
+  overflow:hidden;
+}
+
+h2{
+  color:#3f51b5;
+  margin-bottom:20px;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  background:#3f51b5;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#303f9f;
+}
+
+.linkzinho{
+  color:#3f51b5;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  transition:opacity 0.3s;
+}
+
+.visible{
+  opacity:1;
+  pointer-events:auto;
+  position:relative;
+}

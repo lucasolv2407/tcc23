@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemplo de Conexão com BD</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 600px;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Listar Funcionários</h2>
+    <button onclick="carregarFuncionarios()">Carregar Funcionários</button>
+
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>CPF/CNPJ</th>
+                <th>CRM</th>
+                <th>Cargo</th>
+            </tr>
+        </thead>
+        <tbody id="conteudo"></tbody>
+    </table>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
