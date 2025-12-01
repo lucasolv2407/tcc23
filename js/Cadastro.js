@@ -28,36 +28,92 @@ function mudarLogin(){
   document.getElementById("loginMedico").classList.toggle("hidden", tipo !== "medico");
 }
 
-function loginPaciente(){
+async function loginPaciente(){
   const cpf = document.getElementById("cpfLogin").value.trim();
   const senha = document.getElementById("senhaLoginP").value.trim();
 
-  const user = JSON.parse(localStorage.getItem("pac_" + cpf));
+  if (!cpf || !senha) {
+    alert("Informe CPF e senha.");
+    return;
+  }
 
-  if(!user) return alert("CPF não encontrado!");
-  if(user.senha !== senha) return alert("Senha incorreta!");
+  try {
+    const body = new URLSearchParams({
+      acao: "login_paciente",
+      cpf,
+      senha
+    });
 
-  sessionStorage.setItem("usuario", JSON.stringify(user));
-  alert("Login realizado!");
-  window.location.href = "painel-paciente.html";
+    const resposta = await fetch("api.php", {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+      body: body.toString()
+    });
+
+    const resultado = await resposta.json();
+    if (!resposta.ok || !resultado.existe) {
+      alert("CPF ou senha inválidos.");
+      return;
+    }
+
+    const usuario = {
+      ...resultado.usuario,
+      tipo: "paciente"
+    };
+
+    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+    alert("Login realizado!");
+    window.location.href = "painel-paciente.html";
+  } catch (erro) {
+    console.error("Erro ao fazer login do paciente", erro);
+    alert("Não foi possível realizar o login. " + erro.message);
+  }
 }
 
-function loginMedico(){
+async function loginMedico(){
   const crm = document.getElementById("crmLogin").value.trim();
   const senha = document.getElementById("senhaLoginM").value.trim();
 
-  const user = JSON.parse(localStorage.getItem("med_" + crm));
+  if (!crm || !senha) {
+    alert("Informe CRM e senha.");
+    return;
+  }
 
-  if(!user) return alert("CRM não encontrado!");
-  if(user.senha !== senha) return alert("Senha incorreta!");
+  try {
+    const body = new URLSearchParams({
+      acao: "login_medico",
+      crm,
+      senha
+    });
 
-  sessionStorage.setItem("usuario", JSON.stringify(user));
-  alert("Login realizado!");
+    const resposta = await fetch("api.php", {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+      body: body.toString()
+    });
 
-  if(user.funcao === "admin"){
-    window.location.href = "paineladmin.html";
-  } else {
-    window.location.href = "gerenciamento.html";
+    const resultado = await resposta.json();
+    if (!resposta.ok || !resultado.existe) {
+      alert("CRM ou senha inválidos.");
+      return;
+    }
+
+    const usuario = {
+      ...resultado.usuario,
+      tipo: "medico"
+    };
+
+    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+    alert("Login realizado!");
+
+    if (usuario.funcao === "admin"){
+      window.location.href = "paineladmin.html";
+    } else {
+      window.location.href = "gerenciamento.html";
+    }
+  } catch (erro) {
+    console.error("Erro ao fazer login do médico", erro);
+    alert("Não foi possível realizar o login. " + erro.message);
   }
 }
 
@@ -106,6 +162,17 @@ async function cadastrarPaciente(){
     if(!resposta.ok || resultado.status !== "ok")
       throw new Error(resultado.mensagem || "Erro ao cadastrar paciente.");
 
+    const paciente = {
+      tipo: "paciente",
+      id: resultado.id,
+      nome,
+      cpf,
+      idade,
+      telefone,
+      genero,
+      senha
+    };
+
     localStorage.setItem("pac_" + cpf, JSON.stringify(paciente));
     alert("Cadastro realizado!");
     voltarMenu();
@@ -147,6 +214,15 @@ async function cadastrarMedico(){
     if(!resposta.ok || resultado.status !== "ok")
       throw new Error(resultado.mensagem || "Erro ao cadastrar médico.");
 
+    const medico = {
+      tipo: "medico",
+      id: resultado.id,
+      nome,
+      crm,
+      endereco,
+      funcao,
+      senha
+    };
     localStorage.setItem("med_" + crm, JSON.stringify(medico));
     alert("Cadastro realizado!");
     voltarMenu();

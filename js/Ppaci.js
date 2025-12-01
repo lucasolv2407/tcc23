@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Salvar nova consulta
-  saveBtn.addEventListener("click", () => {
+  saveBtn.addEventListener("click", async () => {
     const novaConsulta = {
       cpfPaciente: user.cpf, // identificar paciente
       especialidade: document.getElementById("especialidade").value,
@@ -94,27 +94,53 @@ document.addEventListener("DOMContentLoaded", () => {
       local: document.getElementById("local").value
     };
 
-    if(!novaConsulta.especialidade || !novaConsulta.medico || !novaConsulta.data || !novaConsulta.hora || !novaConsulta.local){
+    if (!novaConsulta.especialidade || !novaConsulta.medico || !novaConsulta.data || !novaConsulta.hora || !novaConsulta.local) {
       alert("Preencha todos os campos antes de salvar!");
       return;
     }
 
-    todasConsultas.push(novaConsulta);
-    localStorage.setItem("consultas", JSON.stringify(todasConsultas));
+    try {
+      const formData = new FormData();
+      formData.append("acao", "agendar_consulta");
+      formData.append("cpfPaciente", novaConsulta.cpfPaciente);
+      formData.append("especialidade", novaConsulta.especialidade);
+      formData.append("medico", novaConsulta.medico);
+      formData.append("data", novaConsulta.data);
+      formData.append("hora", novaConsulta.hora);
+      formData.append("local", novaConsulta.local);
 
-    // Atualiza listas filtradas
-    consultasProximas = todasConsultas.filter(c => c.cpfPaciente === user.cpf && new Date(c.data + " " + c.hora) >= new Date());
-    consultasHistorico = todasConsultas.filter(c => c.cpfPaciente === user.cpf && new Date(c.data + " " + c.hora) < new Date());
+      const resp = await fetch("api.php", {
+        method: "POST",
+        body: formData
+      });
 
-    renderConsultas();
-    modal.style.display = "none";
+      const json = await resp.json();
+      if (!resp.ok || json.status !== "ok") {
+        alert(json.mensagem || "Erro ao agendar consulta no servidor.");
+        return;
+      }
 
-    // limpar inputs
-    document.getElementById("especialidade").value = "";
-    document.getElementById("medico").value = "";
-    document.getElementById("data").value = "";
-    document.getElementById("hora").value = "";
-    document.getElementById("local").value = "";
+      // Persistir também localmente para exibir imediatamente
+      todasConsultas.push(novaConsulta);
+      localStorage.setItem("consultas", JSON.stringify(todasConsultas));
+
+      // Atualiza listas filtradas
+      consultasProximas = todasConsultas.filter(c => c.cpfPaciente === user.cpf && new Date(c.data + " " + c.hora) >= new Date());
+      consultasHistorico = todasConsultas.filter(c => c.cpfPaciente === user.cpf && new Date(c.data + " " + c.hora) < new Date());
+
+      renderConsultas();
+      modal.style.display = "none";
+
+      // limpar inputs
+      document.getElementById("especialidade").value = "";
+      document.getElementById("medico").value = "";
+      document.getElementById("data").value = "";
+      document.getElementById("hora").value = "";
+      document.getElementById("local").value = "";
+    } catch (e) {
+      alert("Falha de comunicação com o servidor ao agendar consulta.");
+      console.error(e);
+    }
   });
 
   renderConsultas();

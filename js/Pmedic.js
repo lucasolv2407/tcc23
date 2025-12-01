@@ -8,25 +8,70 @@ let prontuario = localStorage.getItem(PRONTUARIO_KEY) || '';
 const PACIENTES_KEY = 'pacientes_medmais';
 let pacientes = JSON.parse(localStorage.getItem(PACIENTES_KEY)) || [];
 
+// Médico logado (ajuste a chave se necessário)
+const medicoLogado = JSON.parse(sessionStorage.getItem('usuario') || 'null');
+
+
 // ---------- SAVE ----------
 const saveConsultas = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(consultas));
 const savePacientes = () => localStorage.setItem(PACIENTES_KEY, JSON.stringify(pacientes));
 
 // ---------- ATUALIZAR SELECT DO MODAL ----------
 function updatePacienteSelect() {
-  const select = document.getElementById("paciente");
+//   const select = document.getElementById("paciente");
 
-  select.innerHTML = `<option value="">Selecione um paciente</option>`;
+  carregarPacientesProntuario('paciente');
 
-  pacientes.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p;
-    opt.textContent = p;
-    select.appendChild(opt);
-  });
+  // select.innerHTML = `<option value="">Selecione um paciente</option>`;
+
+  // pacientes.forEach(p => {
+  //   const opt = document.createElement("option");
+  //   opt.value = p;
+  //   opt.textContent = p;
+  //   select.appendChild(opt);
+  // });
 }
 
-// ---------- ABRIR / FECHAR MODAL ----------
+// ---------- CARREGAR PACIENTES PARA PRONTUÁRIO ----------
+async function carregarPacientesProntuario(id) {
+  const select = document.getElementById(id);
+  if (!select) return;
+
+  select.innerHTML = '<option value="">Selecione um paciente</option>';
+
+  if (!medicoLogado) {
+    return; // sem médico logado, não carrega
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('acao', 'listar_pacientes_medico');
+    formData.append('id_medico', medicoLogado.id);
+
+    const resp = await fetch('api.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    const json = await resp.json();
+    if (!resp.ok || !Array.isArray(json.pacientes)) {
+      console.error('Erro ao carregar pacientes do servidor', json);
+      return;
+    }
+
+    document.getElementById('medico').value = medicoLogado.nome;
+
+    json.pacientes.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.nome;
+      select.appendChild(opt);
+    });
+  } catch (e) {
+    console.error('Falha ao carregar pacientes para prontuário', e);
+  }
+}
+
 function openModal() {
   updatePacienteSelect();
   document.getElementById("consulta-modal").style.display = "flex";
@@ -36,7 +81,6 @@ function closeModal() {
   document.getElementById("consulta-modal").style.display = "none";
 }
 
-// ---------- ADICIONAR CONSULTA ----------
 function addConsultaModal() {
   const paciente = document.getElementById('paciente').value;
   const especialidade = document.getElementById('especialidade').value.trim();
@@ -56,7 +100,6 @@ function addConsultaModal() {
   closeModal();
 }
 
-// ---------- RENDER CONSULTAS ----------
 function renderConsultas() {
   const container = document.getElementById('consultas');
 
@@ -94,21 +137,43 @@ function renderConsultas() {
 }
 
 // ---------- RENDER PACIENTES ----------
-function renderPacientes() {
+async function renderPacientes() {
   const container = document.getElementById('pacientes');
 
   container.innerHTML = `
     <h2>Lista de Pacientes</h2>
   `;
 
-  if (pacientes.length === 0) {
-    container.innerHTML += `<p>Nenhum paciente cadastrado.</p>`;
+  if (!medicoLogado) {
+    container.innerHTML += `<p>Médico não identificado na sessão.</p>`;
     return;
   }
 
-  pacientes.forEach(p => {
-    container.innerHTML += `<p>👤 ${p}</p>`;
-  });
+  try {
+    const formData = new FormData();
+    formData.append('acao', 'listar_pacientes_medico');
+    formData.append('id_medico', medicoLogado.id);
+
+    const resp = await fetch('api.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    const json = await resp.json();
+    if (!resp.ok || !Array.isArray(json.pacientes) || json.pacientes.length === 0) {
+      container.innerHTML += `<p>Nenhum paciente cadastrado.</p>`;
+      return;
+    }
+
+    json.pacientes.forEach(p => {
+      const linha = document.createElement('p');
+      linha.textContent = `👤 ${p.nome} - Telefone: ${p.telefone}`;
+      container.appendChild(linha);
+    });
+  } catch (e) {
+    console.error('Erro ao listar pacientes', e);
+    container.innerHTML += `<p>Erro ao carregar pacientes.</p>`;
+  }
 }
 
 // ---------- RENDER PRONTUÁRIO ----------
@@ -128,16 +193,56 @@ function renderProntuario() {
 }
 
 // ---------- FORM PRONTUÁRIO ----------
-document.getElementById("formProntuario").addEventListener("submit", e => {
+document.getElementById("formProntuario").addEventListener("submit", async e => {
   e.preventDefault();
 
   const texto = document.getElementById("textoProntuario").value.trim();
-  if (!texto) return alert("Digite algo antes de salvar.");
+  if (!texto) {
+    alert("Digite algo antes de salvar.");
+    return;
+  }
 
-  prontuario = texto;
-  localStorage.setItem(PRONTUARIO_KEY, prontuario);
-  renderProntuario();
-  e.target.reset();
+  const selectPaciente = document.getElementById('pacienteProntuario');
+  const idPaciente = selectPaciente ? selectPaciente.value : '';
+
+  if (!idPaciente) {
+    alert('Selecione um paciente.');
+    return;
+  }
+
+  if (!medicoLogado || !medicoLogado.id) {
+    alert('Médico não identificado na sessão.');
+    return;
+  }
+
+  const idMedico = medicoLogado.id;
+
+  try {
+    const formData = new FormData();
+    formData.append("acao", "salvar_prontuario");
+    formData.append("id_paciente", idPaciente);
+    formData.append("id_medico", idMedico);
+    formData.append("texto", texto);
+
+    const resp = await fetch("api.php", {
+      method: "POST",
+      body: formData
+    });
+
+    const json = await resp.json();
+    if (!resp.ok || json.status !== "ok") {
+      alert(json.mensagem || "Erro ao salvar prontuário no servidor.");
+      return;
+    }
+
+    prontuario = texto;
+    localStorage.setItem(PRONTUARIO_KEY, prontuario);
+    renderProntuario();
+    e.target.reset();
+  } catch (err) {
+    console.error(err);
+    alert("Falha de comunicação com o servidor ao salvar o prontuário.");
+  }
 });
 
 // ---------- EXCLUIR CONSULTA ----------
@@ -168,7 +273,10 @@ document.querySelectorAll(".sidebar a[data-target]").forEach(link => {
 
     if (target === "consultas") renderConsultas();
     if (target === "pacientes") renderPacientes();
-    if (target === "prontuario") renderProntuario();
+    if (target === "prontuario") {
+      renderProntuario();
+      carregarPacientesProntuario('pacienteProntuario');
+    }
   });
 });
 

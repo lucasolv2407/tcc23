@@ -47,14 +47,15 @@ datacad TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE prontuario(
- id_prontuario INT AUTO_INCREMENT PRIMARY KEY,
-nome_paciente VARCHAR(100) NOT NULL,
-nome_funcionario VARCHAR(255) NOT NULL,
-data_nascimento DATE NOT NULL,
-sexo ENUM('M', 'F', 'Outro') NOT NULL,
-endereco VARCHAR(200),
-telefone VARCHAR(20),
-data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	id_prontuario INT AUTO_INCREMENT PRIMARY KEY,
+	id_paciente INT NOT NULL,
+	id_medico INT NOT NULL,
+	texto TEXT NOT NULL,
+	data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (id_paciente) REFERENCES paciente(id)
+		ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (id_medico) REFERENCES medico(id)
+		ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE vacinas(
@@ -67,14 +68,18 @@ data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE consultas(
-id_consulta INT AUTO_INCREMENT PRIMARY KEY,
-id_prontuario INT NOT NULL,
-data_consulta DATETIME NOT NULL,
-motivo VARCHAR(255),
-diagnostico TEXT,
-prescricao TEXT,
-FOREIGN KEY (id_prontuario) REFERENCES prontuario(id_prontuario)
-ON DELETE CASCADE ON UPDATE CASCADE
+	id_consulta INT AUTO_INCREMENT PRIMARY KEY,
+	cpf_paciente VARCHAR(14) NOT NULL,
+	especialidade VARCHAR(255) NOT NULL,
+	medico VARCHAR(255) NOT NULL,
+	data_consulta DATE NOT NULL,
+	hora_consulta TIME NOT NULL,
+	local_sala VARCHAR(255) NOT NULL,
+	motivo VARCHAR(255),
+	diagnostico TEXT,
+	prescricao TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	expires_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE info_add (

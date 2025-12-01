@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Médico pingdsaude</title>
   <link rel="stylesheet" href="css/Pmedic.css">
-  <link rel="icon" type="image/png" href="/Imagem/Medpig.jpg">
+  <link rel="icon" type="image/png" href="Imagem/Medpig.jpg">
 
 </head>
 <body>
 
 <div class="header">
   <h1>
-  <img src="/Imagem/Foto de bucholz!!.png" alt="Logo" style="width: 30px; vertical-align: middle; margin-right: 8px;">
+  <img src="Imagem/Foto de bucholz!!.png" alt="Logo" style="width: 30px; vertical-align: middle; margin-right: 8px;">
   pingdsaude
 </h1>
 
@@ -44,11 +44,13 @@
   <!-- PRONTUÁRIO -->
   <div id="prontuario" class="tab-content" style="display:none;">
     <h2>Prontuário</h2>
+    <label for="pacienteProntuario">Paciente</label>
+    <select id="pacienteProntuario"></select>
     <div id="prontuarioSalvo"></div>
 
     <form id="formProntuario">
       <textarea id="textoProntuario" rows="4" placeholder="Digite algo no prontuário..."></textarea>
-      <button type="submit">Salvar</button>
+      <button class="btn-new" type="submit">Salvar</button>
     </form>
   </div>
 
@@ -60,7 +62,7 @@
     <h3>Criar Consulta</h3>
     
     <label>Paciente</label>
-    <input type="text" id="paciente" placeholder="Nome do paciente" />
+    <select id="paciente"></select>
 
     <label>Especialidade</label>
     <input type="text" id="especialidade" placeholder="Ex: Cardiologia" />
